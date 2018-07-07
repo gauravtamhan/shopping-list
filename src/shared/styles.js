@@ -18,9 +18,8 @@ const styles = StyleSheet.create({
     listHeaderContainer: {
         flex: 1,
         paddingHorizontal: 18,
-        paddingTop: 6,
-        paddingBottom: 6,
-        backgroundColor: '#fff',
+        paddingVertical: 4,
+        backgroundColor: 'rgba(255,255,255,0.98)',
     },
     listHeader: {
         fontSize: 14,

@@ -3,6 +3,7 @@ import { Text, View, SectionList } from 'react-native';
 import styles from '@theme/styles';
 import HeaderButton from '@components/HeaderButton/index';
 import ListHeader from '@components/ListHeader/index';
+import { BlurView } from 'react-native-blur';
 
 
 export default class ShoppingList extends Component {
@@ -12,9 +13,11 @@ export default class ShoppingList extends Component {
             title: null,
             headerRight: (<HeaderButton text={'Add Item'} />),
             headerStyle: {
-                backgroundColor: '#fff',
-                borderBottomColor: '#fff',
-            }
+                backgroundColor: 'rgba(255,255,255,0.98)',
+                borderBottomColor: 'transparent',
+            },
+            headerTransparent: false,
+            // headerBackground: (<BlurView style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 65}} blurType="light" blurAmount={20}/>)
         }
     };
 
@@ -68,6 +71,7 @@ export default class ShoppingList extends Component {
                     ListHeaderComponent={<Text style={styles.title}>{item.title}</Text>}
                     sections={sections}
                     renderSectionHeader={this._renderSectionHeader.bind(this)}
+                    renderSectionFooter={({ section }) => <View style={{height: 26}} />}
                     renderItem={this._renderRow.bind(this)}
                     keyExtractor={(item, index) => index}
                     stickySectionHeadersEnabled={true}
