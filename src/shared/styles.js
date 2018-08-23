@@ -42,13 +42,13 @@ const styles = StyleSheet.create({
     },
     rowSubText: {
         fontSize: 13,
-        color: 'rgba(0,0,0,0.7)',
+        color: 'rgba(0,0,0,0.6)',
         marginTop: 5,
     },
     separator: {
         height: 1,
         backgroundColor: 'rgba(0,0,0,0.1)',
-        marginHorizontal: 18,
+        marginLeft: 18,
     },
 
     /*=============================================================
@@ -105,6 +105,16 @@ const styles = StyleSheet.create({
         color: 'rgba(0,0,0,0.7)',
     },
 
+    /*------------------------
+        Add Item Modal
+     ------------------------*/
+    basicInputField: { 
+        paddingHorizontal: 18,
+        marginVertical: 28, 
+        fontSize: 17, 
+        borderBottomWidth: 0.6, 
+        borderBottomColor: 'rgba(0,0,0,0.4)', 
+    }
 
 })
 

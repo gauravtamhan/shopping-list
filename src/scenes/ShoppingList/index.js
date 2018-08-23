@@ -4,6 +4,7 @@ import styles from '@theme/styles';
 import HeaderButton from '@components/HeaderButton/index';
 import ListHeader from '@components/ListHeader/index';
 import { BlurView } from 'react-native-blur';
+import CheckBox from 'react-native-check-box';
 
 
 export default class ShoppingList extends Component {
@@ -11,7 +12,7 @@ export default class ShoppingList extends Component {
         // const item = navigation.getParam('item');
         return {
             title: null,
-            headerRight: (<HeaderButton text={'Add Item'} />),
+            headerRight: (<HeaderButton text={'Add Item'} onPress={navigation.getParam('addItem')} />),
             headerStyle: {
                 backgroundColor: 'rgba(255,255,255,0.98)',
                 borderBottomColor: 'transparent',
@@ -23,6 +24,23 @@ export default class ShoppingList extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            item: props.navigation.getParam('item')
+        }
+        this._addItem = this._addItem.bind(this);
+    }
+
+    componentDidMount() {
+        this.props.navigation.setParams({ addItem: this._addItem });
+    }
+
+    _addItem() {
+        const { navigation } = this.props;
+        navigation.navigate('AddItemModal')
+    }
+
+    _onCheck(data) {
+        console.log(data);
     }
 
     _createSections(obj) {
@@ -48,9 +66,16 @@ export default class ShoppingList extends Component {
         const unit = data.unit ? data.unit : '';
         return (
             <View key={index} style={styles.itemRow}>
-                <View>
-                    <Text style={styles.itemName}>{itemName}</Text>
-                    <Text style={styles.rowSubText}>{description}</Text>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <CheckBox
+                        style={{ paddingRight: 16 }}
+                        onClick={() => this._onCheck(data)}
+                        isChecked={data.marked}
+                    />
+                    <View>
+                        <Text style={styles.itemName}>{itemName}</Text>
+                        <Text style={styles.rowSubText}>{description}</Text>
+                    </View>
                 </View>
                 <View style={styles.itemRightTextContainer}>
                     <Text style={styles.itemRightTextMain}>{quantity}</Text>
@@ -61,14 +86,14 @@ export default class ShoppingList extends Component {
     }
 
     render() {
-        const item = this.props.navigation.getParam('item');
-        const sections = this._createSections(item.groceries);
+        const sections = this._createSections(this.state.item.groceries);
+
         return (
             <View style={styles.container}>
 
                 <SectionList
                     style={{flex: 1}}
-                    ListHeaderComponent={<Text style={styles.title}>{item.title}</Text>}
+                    ListHeaderComponent={<Text style={styles.title}>{this.state.item.title}</Text>}
                     sections={sections}
                     renderSectionHeader={this._renderSectionHeader.bind(this)}
                     renderSectionFooter={({ section }) => <View style={{height: 26}} />}
