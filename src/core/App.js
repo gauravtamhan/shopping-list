@@ -6,6 +6,7 @@ import ShoppingList from '@scenes/ShoppingList/index';
 import CreateListModal from '@scenes/CreateListModal/index';
 import AddItemModal from '@scenes/AddItemModal/index';
 
+import { NAV_COLOR } from '@theme/colors';
 
 
 const MainStack = createStackNavigator(
@@ -17,8 +18,9 @@ const MainStack = createStackNavigator(
     initialRouteName: 'Home',
     headerTransitionPreset: 'uikit',
     navigationOptions: {
-      headerTintColor: '#000',
-      headerTitleStyle: { fontWeight: '600' }
+      // headerTintColor: 'rgba(0,0,0,0.7)',
+      headerTintColor: NAV_COLOR,
+      headerTitleStyle: { fontWeight: '600', color: '#000' }
     },
   }
 );

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { DEFAULT_ORANGE_COLOR } from '@theme/colors'
+import { NAV_COLOR } from '@theme/colors';
 
 const styles = StyleSheet.create({
     /*=============================================================
@@ -12,6 +12,10 @@ const styles = StyleSheet.create({
     },
     headerButton: {
         fontSize: 17,
+        color: NAV_COLOR,
+    },
+    headerButtonIcon: {
+        color: NAV_COLOR,
     },
 
     // List Header
@@ -46,8 +50,8 @@ const styles = StyleSheet.create({
         marginTop: 5,
     },
     separator: {
-        height: 1,
-        backgroundColor: 'rgba(0,0,0,0.1)',
+        height: 0.5,
+        backgroundColor: 'rgba(0,0,0,0.15)',
         marginLeft: 18,
     },
 
@@ -108,12 +112,37 @@ const styles = StyleSheet.create({
     /*------------------------
         Add Item Modal
      ------------------------*/
-    basicInputField: { 
+    inputWrapper: {
+        borderBottomWidth: 0.6,
+        borderBottomColor: 'rgba(0,0,0,0.4)',
+        marginVertical: 28,
         paddingHorizontal: 18,
-        marginVertical: 28, 
+    },
+     basicInputField: { 
+        paddingVertical: 5, 
         fontSize: 17, 
-        borderBottomWidth: 0.6, 
-        borderBottomColor: 'rgba(0,0,0,0.4)', 
+    },
+    sliderWrapper: { 
+        flexDirection: 'row',
+        paddingHorizontal: 8,
+        alignItems: 'center',
+    },
+    sliderPill: {
+        marginHorizontal: 0,
+        paddingVertical: 6,
+        paddingHorizontal: 10,
+        borderRadius: 20,
+    },
+    sliderPillSelected: {
+        backgroundColor: '#000',
+    },
+    sliderPillText: {
+        color: '#000',
+        fontWeight: '400',
+        fontSize: 15,
+    },
+    sliderPillTextSelected: {
+        color: '#fff',
     }
 
 })

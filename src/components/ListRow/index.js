@@ -11,7 +11,7 @@ export default class ListRow extends Component {
     render() {
         const { separators, title, time, date } = this.props;
         return (
-            <TouchableHighlight onPress={this._onPress} underlayColor={'rgb(207,207,207)'} onShowUnderlay={separators.highlight} onHideUnderlay={separators.unhighlight}>
+            <TouchableHighlight onPress={this._onPress} underlayColor={'rgb(235,235,235)'} onShowUnderlay={separators.highlight} onHideUnderlay={separators.unhighlight}>
                 <View style={styles.listRow}>
                     <View style={{ flexDirection: 'row' }}>
                         <View style={{ flexDirection: 'column' }}>

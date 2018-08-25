@@ -40,7 +40,7 @@ export default class CreateListModal extends Component {
         return (
             <View style={styles.container}>
                 <View style={{ height: 65, paddingTop: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <HeaderButton text={'Cancel'} onPress={() => this._cancelModal()} />
+                    <HeaderButton icon={'ios-close'} size={36} onPress={() => this._cancelModal()} />
                 </View>
 
                 <View> 

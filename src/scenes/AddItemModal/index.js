@@ -1,9 +1,23 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, Keyboard, AsyncStorage, Picker, DatePickerIOS } from 'react-native';
+import { Text, View, TextInput, Keyboard, ScrollView, TouchableWithoutFeedback, Picker } from 'react-native';
 import styles from '@theme/styles'
 import HeaderButton from '@components/HeaderButton/index';
+import DismissKeyboard from '@components/Utilities/dismissKeyboard';
 
-
+const food_categories = [
+    "Beverages",
+    "Bakery",
+    "Canned Goods",
+    "Dairy",
+    "Dry Goods",
+    "Frozen Foods",
+    "Meat",
+    "Produce",
+    "Cleaners",
+    "Paper Goods",
+    "Personal Care",
+    "Other"
+]
 
 export default class CreateListModal extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -15,8 +29,8 @@ export default class CreateListModal extends Component {
         this.state = {
             itemName: '',
             itemDescription: '',
+            selectedCategoryIndex: 0,
             language: '',
-            chosenDate: new Date(),
         }
     }
 
@@ -28,40 +42,66 @@ export default class CreateListModal extends Component {
 
 
     render() {
+        const { selectedCategoryIndex } = this.state;
         return (
+            <DismissKeyboard>
             <View style={styles.container}>
                 <View style={{ height: 65, paddingTop: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <HeaderButton text={'Cancel'} onPress={() => this._cancelModal()} />
+                    <HeaderButton icon={'ios-close'} size={36} onPress={() => this._cancelModal()} />
                     <HeaderButton text={'Done'} onPress={() => this._cancelModal()} />
                 </View>
 
                 <Text style={styles.title}>Add Item</Text>
-
-                <TextInput 
-                    style={styles.basicInputField}
-                    onChangeText={(text) => this.setState({ itemName: text })}
-                    clearButtonMode='while-editing'
-                    placeholder='Name'
-                    placeholderTextColor='rgba(0,0,0,0.4)'
-                    value={this.state.itemName}
-                    returnKeyType='next'
-                    selectionColor='rgba(0,0,0,1)'
-                    enablesReturnKeyAutomatically={true}
+                
+                <View style={{height: 40, marginVertical: 10}}>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                        <View style={styles.sliderWrapper}>
+                            {
+                                food_categories.map((item, index) => (
+                                    <TouchableWithoutFeedback key={index} onPress={() => { this.setState({ selectedCategoryIndex: index }) }}>
+                                        <View style={[styles.sliderPill, selectedCategoryIndex === index ? styles.sliderPillSelected : null]}>
+                                            <Text style={[styles.sliderPillText, selectedCategoryIndex === index ? styles.sliderPillTextSelected : null]}>{item}</Text>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                ))
+                            }
+                        </View>
+                    </ScrollView>
+                </View>
+                
+                <View style={styles.inputWrapper}>
+                    <TextInput 
+                        style={styles.basicInputField}
+                        onChangeText={(text) => this.setState({ itemName: text })}
+                        clearButtonMode='while-editing'
+                        placeholder='Name'
+                        placeholderTextColor='rgba(0,0,0,0.4)'
+                        value={this.state.itemName}
+                        returnKeyType={'next'}
+                        selectionColor='rgba(0,0,0,1)'
+                        enablesReturnKeyAutomatically={true}
+                        onSubmitEditing={() => { this.secondTextInput.focus(); }}
+                        blurOnSubmit={false}
+                        // onSubmitEditing={(e) => this._createNewList(e.nativeEvent.text)}
+                    />
+                </View>
+                
+                <View style={styles.inputWrapper}>
+                    <TextInput
+                        ref={(input) => { this.secondTextInput = input; }}
+                        style={styles.basicInputField}
+                        onChangeText={(text) => this.setState({ itemDescription: text })}
+                        clearButtonMode='while-editing'
+                        placeholder='Description (optional)'
+                        placeholderTextColor='rgba(0,0,0,0.4)'
+                        value={this.state.itemDescription}
+                        returnKeyType={'next'}
+                        selectionColor='rgba(0,0,0,1)'
+                        enablesReturnKeyAutomatically={true}
+                        blurOnSubmit={false}
                     // onSubmitEditing={(e) => this._createNewList(e.nativeEvent.text)}
-                />
-
-                <TextInput
-                    style={styles.basicInputField}
-                    onChangeText={(text) => this.setState({ itemDescription: text })}
-                    clearButtonMode='while-editing'
-                    placeholder='Description (optional)'
-                    placeholderTextColor='rgba(0,0,0,0.4)'
-                    value={this.state.itemDescription}
-                    returnKeyType='next'
-                    selectionColor='rgba(0,0,0,1)'
-                    enablesReturnKeyAutomatically={true}
-                // onSubmitEditing={(e) => this._createNewList(e.nativeEvent.text)}
-                />
+                    />
+                </View>
 
                 <Picker
                     selectedValue={this.state.language}
@@ -75,12 +115,8 @@ export default class CreateListModal extends Component {
                     <Picker.Item label="Php" value="php" />
                 </Picker>
 
-                {/* <DatePickerIOS
-                    date={this.state.chosenDate}
-                    onDateChange={(newDate) => this.setState({ chosenDate: newDate })}
-                /> */}
-
             </View>
+            </DismissKeyboard>
         )
     }
 }
