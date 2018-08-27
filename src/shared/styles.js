@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { NAV_COLOR } from '@theme/colors';
+import { NAV_COLOR, TITLE_COLOR, SUBTEXT_COLOR } from '@theme/colors';
 
 const styles = StyleSheet.create({
     /*=============================================================
@@ -42,16 +42,22 @@ const styles = StyleSheet.create({
     },
     rowMainText: {
         fontSize: 17,
-        fontWeight: '500',
+        fontWeight: '600',
     },
     rowSubText: {
-        fontSize: 13,
-        color: 'rgba(0,0,0,0.6)',
-        marginTop: 5,
+        fontSize: 14,
+        fontWeight: '400',
+        color: SUBTEXT_COLOR,
+    },
+    rightChevron: {
+        marginLeft: 10,
+        color: SUBTEXT_COLOR,
+        opacity: 0.75,
     },
     separator: {
         height: 0.5,
-        backgroundColor: 'rgba(0,0,0,0.15)',
+        // backgroundColor: 'rgba(0,0,0,0.15)',
+        backgroundColor: 'rgb(194,193,196)', // 231,230,233
         marginLeft: 18,
     },
 
@@ -72,8 +78,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 18, 
         marginTop: 4, 
         marginBottom: 12,
-        fontSize: 26, 
-        fontWeight: "500",
+        fontSize: 30, 
+        fontWeight: "700",
+        color: TITLE_COLOR
     },
     itemRow: {
         flex: 1, 
@@ -112,11 +119,19 @@ const styles = StyleSheet.create({
     /*------------------------
         Add Item Modal
      ------------------------*/
-    inputWrapper: {
+    textInputWrapper: {
         borderBottomWidth: 0.6,
         borderBottomColor: 'rgba(0,0,0,0.4)',
-        marginVertical: 28,
-        paddingHorizontal: 18,
+        marginTop: 30,
+        paddingHorizontal: 4,
+        marginHorizontal: 18,
+    },
+    selectInputWrapper: {
+        borderTopWidth: 0.6,
+        borderBottomWidth: 0.6,
+        borderColor: 'rgba(0,0,0,0.4)',
+        paddingHorizontal: 4,
+        marginHorizontal: 18,
     },
      basicInputField: { 
         paddingVertical: 5, 
@@ -128,17 +143,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     sliderPill: {
-        marginHorizontal: 0,
-        paddingVertical: 6,
+        marginHorizontal: 6,
+        paddingVertical: 8,
         paddingHorizontal: 10,
-        borderRadius: 20,
+        borderRadius: 8,
+        backgroundColor: 'rgb(248,248,252)'
     },
     sliderPillSelected: {
-        backgroundColor: '#000',
+        backgroundColor: NAV_COLOR,
     },
     sliderPillText: {
-        color: '#000',
-        fontWeight: '400',
+        color: NAV_COLOR,
+        fontWeight: '600',
         fontSize: 15,
     },
     sliderPillTextSelected: {

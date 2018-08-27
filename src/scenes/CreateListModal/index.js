@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, TextInput, Keyboard, AsyncStorage } from 'react-native';
-import styles from '@theme/styles'
+import styles from '@theme/styles';
+import { NAV_COLOR } from '@theme/colors';
 import HeaderButton from '@components/HeaderButton/index';
 
 
@@ -30,7 +31,7 @@ export default class CreateListModal extends Component {
         let newObj = {
             title: name,
             date: new Date().toJSON(),
-            groceries: [],
+            groceries: {},
         }
         addListFunc(newObj);
         navigation.goBack();
@@ -40,7 +41,7 @@ export default class CreateListModal extends Component {
         return (
             <View style={styles.container}>
                 <View style={{ height: 65, paddingTop: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <HeaderButton icon={'ios-close'} size={36} onPress={() => this._cancelModal()} />
+                    <HeaderButton text={'Cancel'} onPress={() => this._cancelModal()} />
                 </View>
 
                 <View> 
@@ -51,10 +52,10 @@ export default class CreateListModal extends Component {
                         autoCorrect={false} 
                         autoFocus={true}
                         placeholder='List Name'
-                        placeholderTextColor='rgba(0,0,0,0.4)'
+                        placeholderTextColor='rgb(198,198,202)'
                         value={this.state.name}
                         returnKeyType='done'
-                        selectionColor='rgba(0,0,0,1)'
+                        selectionColor='rgb(7,106,219)'
                         enablesReturnKeyAutomatically={true}
                         onSubmitEditing={(e) => this._createNewList(e.nativeEvent.text)}
                     />

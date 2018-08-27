@@ -12,7 +12,7 @@ export default class ShoppingList extends Component {
         // const item = navigation.getParam('item');
         return {
             title: null,
-            headerRight: (<HeaderButton text={'Add Item'} onPress={navigation.getParam('addItem')} />),
+            headerRight: (<HeaderButton text={'Add Item'} onPress={navigation.getParam('createNewItem')} />),
             headerStyle: {
                 backgroundColor: 'rgba(255,255,255,0.98)',
                 borderBottomColor: 'transparent',
@@ -25,23 +25,28 @@ export default class ShoppingList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            item: props.navigation.getParam('item')
+            item: props.navigation.getParam('item'),
         }
-        this._addItem = this._addItem.bind(this);
+        this._createNewItem = this._createNewItem.bind(this);
     }
 
     componentDidMount() {
-        this.props.navigation.setParams({ addItem: this._addItem });
+        console.log(this.state.item)
+        this.props.navigation.setParams({ createNewItem: this._createNewItem });
     }
 
-    _addItem() {
+    _createNewItem() {
         const { navigation } = this.props;
-        navigation.navigate('AddItemModal')
+        navigation.navigate('AddItemModal', {
+            addItem: this._addItem
+        })
     }
 
-    _onCheck(data) {
-        console.log(data);
-    }
+    _addItem = (category, data) => {
+        const { navigation } = this.props;
+        const addGroceriesFunc = navigation.getParam('addGroceries');
+        addGroceriesFunc(navigation.getParam('index'), category, data)
+    }    
 
     _createSections(obj) {
         const resultArray = []

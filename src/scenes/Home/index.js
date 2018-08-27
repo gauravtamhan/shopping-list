@@ -15,7 +15,7 @@ export default class Home extends Component {
                 borderBottomColor: '#fff',
             },
             headerBackTitle: null,
-            // headerLeft: (<HeaderButton text={'Edit'} />),
+            headerLeft: (<HeaderButton text={'Edit'} />),
             headerRight: (<HeaderButton text={'New'} onPress={navigation.getParam('createNewList')} /> )
         }
     };
@@ -42,6 +42,7 @@ export default class Home extends Component {
     }
 
     componentDidUpdate() {
+        console.log('new thing added!')
         this._storeData()
     }
 
@@ -81,6 +82,15 @@ export default class Home extends Component {
         })
     }
 
+    _addGroceries = (index, category, data) => {
+        const entries = this.state.lists;
+        if (entries[index].groceries[category] === undefined) {
+            entries[index].groceries[category] = []
+        }
+        entries[index].groceries[category].push(data)
+        this.forceUpdate()
+    }
+
     _renderItem = ({ item, index, separators }) => {
         let swipeBtns = [{
             text: 'Delete',
@@ -104,7 +114,7 @@ export default class Home extends Component {
                     time={new Date(item.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     groceries={item.groceries}
                     onPressItem={
-                        () => this.props.navigation.navigate('ShoppingList', { item })
+                        () => this.props.navigation.navigate('ShoppingList', { item, index, addGroceries: this._addGroceries })
                     }
                 />
             </Swipeout>
