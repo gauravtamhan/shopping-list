@@ -8,16 +8,22 @@ import styles from '@theme/styles'
 export default class HeaderButton extends Component {
 
     render() {
-        const { onPress, text, icon, size} = this.props;
+        const { onPress, text, disabled, style} = this.props;
         return (
-            <TouchableOpacity onPress={onPress} style={styles.headerButtonContainer} hitSlop={{ top: 6, bottom: 6, left: 12, right: 12 }}>
-                { !!text &&
-                    <Text style={styles.headerButton}>{text}</Text>
-                }
-                { !!icon && !!size &&
-                    <Icon style={styles.headerButtonIcon} name={icon} size={size} />
-                }
+            <TouchableOpacity onPress={onPress} disabled={disabled} style={styles.headerButtonContainer} hitSlop={{ top: 6, bottom: 6, left: 12, right: 12 }}>
+                <Text style={[disabled ? styles.headerButtonDisabled : styles.headerButton, style]}>{text}</Text>
             </TouchableOpacity>
         )
     }
 }
+
+// return (
+//     <TouchableOpacity onPress={onPress} style={styles.headerButtonContainer} hitSlop={{ top: 6, bottom: 6, left: 12, right: 12 }}>
+//         {!!text &&
+//             <Text style={[styles.headerButton, style]}>{text}</Text>
+//         }
+//         {!!icon && !!size &&
+//             <Icon style={styles.headerButtonIcon} name={icon} size={size} />
+//         }
+//     </TouchableOpacity>
+// )

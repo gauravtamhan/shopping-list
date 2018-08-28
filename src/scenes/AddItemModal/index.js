@@ -13,10 +13,11 @@ import styles from '@theme/styles'
 import HeaderButton from '@components/HeaderButton/index';
 import DismissKeyboard from '@components/Utilities/dismissKeyboard';
 import CustomPicker from './customPicker';
+import { NAV_COLOR } from '@theme/colors';
 
 const categories = [
-    "Beverages",
     "Bakery",
+    "Beverages",
     "Canned Goods",
     "Dairy",
     "Dry Goods",
@@ -30,14 +31,6 @@ const categories = [
 ];
 
 const quantity_data = [
-    {
-        label: '(no quantity)',
-        value: ''
-    },
-    {
-        label: '1/8',
-        value: 0.125
-    },
     {
         label: '1/4',
         value: 0.25
@@ -70,12 +63,36 @@ const quantity_data = [
         label: '6',
         value: 6
     },
+    {
+        label: '7',
+        value: 7
+    },
+    {
+        label: '8',
+        value: 8
+    },
+    {
+        label: '9',
+        value: 9
+    },
+    {
+        label: '10',
+        value: 10
+    },
+    {
+        label: '11',
+        value: 11
+    },
+    {
+        label: '12',
+        value: 12
+    },
 ]
 
 const single_units = [
     {
-        label: '(no unit)',
-        value: ""
+        label: 'none',
+        value: "none"
     },
     {
         label: 'bag',
@@ -122,27 +139,23 @@ const single_units = [
         value: "pound"
     },
     {
-        label: '6 pack',
-        value: "6 pack"
+        label: '6-pack',
+        value: "6-pack"
     },
     {
-        label: '12 pack',
-        value: "12 pack"
+        label: '12-pack',
+        value: "12-pack"
     },
     {
-        label: '24 pack',
-        value: "24 pack"
-    },
-    {
-        label: '32 pack',
-        value: "32 pack"
+        label: '24-pack',
+        value: "24-pack"
     }
 ]
 
 const multi_units = [
     {
-        label: '(no units)',
-        value: ""
+        label: 'none',
+        value: "none"
     },
     {
         label: 'bags',
@@ -165,8 +178,8 @@ const multi_units = [
         value: "cans"
     },
     {
-        label: 'dozens',
-        value: "dozens"
+        label: 'dozen',
+        value: "dozen"
     },
     {
         label: 'gallons',
@@ -189,26 +202,31 @@ const multi_units = [
         value: "pounds"
     },
     {
-        label: '6 pack',
-        value: "6 pack"
+        label: '6-packs',
+        value: "6-packs"
     },
     {
-        label: '12 pack',
-        value: "12 pack"
+        label: '12-packs',
+        value: "12-packs"
     },
     {
-        label: '24 pack',
-        value: "24 pack"
-    },
-    {
-        label: '32 pack',
-        value: "32 pack"
+        label: '24-packs',
+        value: "24-packs"
     }
-]
+];
 
-export default class CreateListModal extends Component {
+
+export default class AddItemModal extends Component {
     static navigationOptions = ({ navigation }) => {
-        return {}
+        return {
+            title: 'Add Item',
+            headerStyle: {
+                backgroundColor: 'rgb(250,250,250)',
+                borderBottomColor: 'rgb(100,100,100)',
+            },
+            headerLeft: (<HeaderButton text={'Cancel'} onPress={navigation.getParam('cancelModal')}  />),
+            headerRight: (<HeaderButton text={'Done'} style={{fontWeight: '600'}} onPress={navigation.getParam('handleDone')}  />)
+        }
     };
 
     constructor(props) {
@@ -217,14 +235,21 @@ export default class CreateListModal extends Component {
             itemName: '',
             itemDescription: '',
             selectedCategoryIndex: 0,
-            quantity: '',
-            unit: '',
+            quantity: 1,
+            unit: 'none',
             showQuantPicker: false,
             showUnitPicker: false,
         }
     }
 
-    _cancelModal() {
+    componentDidMount() {
+        this.props.navigation.setParams({ 
+            cancelModal: this._cancelModal, 
+            handleDone: this._handleDone 
+        });
+    }
+
+    _cancelModal = () => {
         const { navigation } = this.props;
         Keyboard.dismiss();
         navigation.goBack();
@@ -236,9 +261,9 @@ export default class CreateListModal extends Component {
         const category = categories[selectedCategoryIndex];
         let data = {
             item: itemName,
-            desc: itemDescription,
+            desc: itemDescription === '' ? null : itemDescription,
             quant: quantity,
-            unit: unit,
+            unit: unit === 'none' ? null : unit,
             marked: false,
         }
 
@@ -248,103 +273,99 @@ export default class CreateListModal extends Component {
 
 
     render() {
-        const { selectedCategoryIndex, quantity, unit, showQuantPicker, showUnitPicker } = this.state;
+        const { selectedCategoryIndex, itemName, itemDescription, quantity, unit, showQuantPicker, showUnitPicker } = this.state;
         return (
-            <DismissKeyboard>
-            <View style={styles.container}>
-                <View style={{ height: 65, paddingTop: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <HeaderButton text={'Cancel'} onPress={() => this._cancelModal()} />
-                    <HeaderButton text={'Done'} onPress={this._handleDone} />
-                </View>
-
-                <Text style={styles.title}>Add Item</Text>
-                
-                <View style={{height: 50, marginTop: 10}}>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                        <View style={styles.sliderWrapper}>
-                            {
-                                categories.map((item, index) => (
-                                    <TouchableWithoutFeedback
-                                        key={index} 
-                                        // underlayColor={selectedCategoryIndex === index ? 'rgb(0,102,235)' : 'rgb(238,238,242)'}
-                                        onPress={() => { this.setState({ selectedCategoryIndex: index }) }}
-                                        hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
-                                    >
-                                        <View style={[styles.sliderPill, selectedCategoryIndex === index ? styles.sliderPillSelected : null]}>
-                                            <Text style={[styles.sliderPillText, selectedCategoryIndex === index ? styles.sliderPillTextSelected : null]}>{item}</Text>
-                                        </View>
-                                    </TouchableWithoutFeedback>
-                                ))
-                            }
+                <View style={[styles.container, { backgroundColor: 'rgb(242,242,243)' }]}>
+                    <ScrollView>
+                    <Text style={styles.iosDescriptorText}>{'choose a category'.toUpperCase()}</Text>
+                    <View style={[styles.iosTextInputWrapper, {marginTop: 0}]}>
+                        <View style={{height: 50, marginVertical: 10}}>
+                            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                                <View style={styles.sliderWrapper}>
+                                    {
+                                        categories.map((item, index) => (
+                                            <TouchableWithoutFeedback
+                                                key={index} 
+                                                // underlayColor={selectedCategoryIndex === index ? 'rgb(0,102,235)' : 'rgb(238,238,242)'}
+                                                onPress={() => { this.setState({ selectedCategoryIndex: index }) }}
+                                                hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
+                                            >
+                                                <View style={[styles.sliderPill, selectedCategoryIndex === index ? styles.sliderPillSelected : null]}>
+                                                    <Text style={[styles.sliderPillText, selectedCategoryIndex === index ? styles.sliderPillTextSelected : null]}>{item}</Text>
+                                                </View>
+                                            </TouchableWithoutFeedback>
+                                        ))
+                                    }
+                                </View>
+                            </ScrollView>
                         </View>
+                    </View>
+                    
+                    <Text style={styles.iosDescriptorText}>{'enter item details'.toUpperCase()}</Text>
+                    <View style={[styles.iosTextInputWrapper, {marginTop: 0}]}>
+                        <TextInput 
+                            style={styles.iosTextInput}
+                            onChangeText={(text) => this.setState({ itemName: text })}
+                            clearButtonMode='while-editing'
+                            placeholder='Name'
+                            placeholderTextColor='rgb(198,198,202)'
+                            value={itemName}
+                            returnKeyType={'default'}
+                            selectionColor='rgb(7,106,219)'
+                            enablesReturnKeyAutomatically={false}
+                            // onSubmitEditing={() => { this.secondTextInput.focus(); }}
+                            blurOnSubmit
+                        />
+                        <View style={styles.separator} />
+                        <TextInput
+                            // ref={(input) => { this.secondTextInput = input; }}
+                            style={styles.iosTextInput}
+                            onChangeText={(text) => this.setState({ itemDescription: text })}
+                            clearButtonMode='while-editing'
+                            placeholder='Description (optional)'
+                            placeholderTextColor='rgb(198,198,202)'
+                            value={itemDescription}
+                            returnKeyType={'default'}
+                            selectionColor='rgb(7,106,219)'
+                            enablesReturnKeyAutomatically={false}
+                            blurOnSubmit
+                        />
+                    </View>
+                    
+                    <View style={styles.iosTextInputWrapper}>
+                        <TouchableHighlight 
+                            style={styles.selectInputWrapper}
+                            underlayColor={'rgb(235,235,235)'}
+                            onPress={() => { this.setState({ showQuantPicker: !showQuantPicker }) }}
+                            hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
+                        >
+                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                                <Text style={{ fontSize: 17 }}>Quantity</Text>
+                                <Text style={{ fontSize: 17, color: NAV_COLOR }}>{quantity}</Text>
+                            </View>
+                        </TouchableHighlight>
+                    
+                    { showQuantPicker &&
+                        <CustomPicker data={quantity_data} selectedVal={quantity} onValChange={(itemValue) => { this.setState({ quantity: itemValue }) }} />
+                    }
+                    <View style={styles.separator} />
+                    <TouchableHighlight
+                        style={styles.selectInputWrapper}
+                        underlayColor={'rgb(235,235,235)'}
+                        onPress={() => { this.setState({ showUnitPicker: !showUnitPicker }) }}
+                        hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
+                    >
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <Text style={{ fontSize: 17 }}>Unit</Text>
+                            <Text style={{ fontSize: 17, color: NAV_COLOR }}>{unit}</Text>
+                        </View>
+                    </TouchableHighlight>
+                    { showUnitPicker &&
+                        <CustomPicker data={quantity < 2 ? single_units : multi_units} selectedVal={unit} onValChange={(itemValue) => { this.setState({ unit: itemValue }) }} />
+                    }
+                    </View>
                     </ScrollView>
                 </View>
-                
-                <View style={styles.textInputWrapper}>
-                    <TextInput 
-                        style={styles.basicInputField}
-                        onChangeText={(text) => this.setState({ itemName: text })}
-                        clearButtonMode='while-editing'
-                        placeholder='Name'
-                        placeholderTextColor='rgb(198,198,202)'
-                        value={this.state.itemName}
-                        returnKeyType={'default'}
-                        selectionColor='rgb(7,106,219)'
-                        enablesReturnKeyAutomatically={false}
-                        onSubmitEditing={() => { this.secondTextInput.focus(); }}
-                        blurOnSubmit={false}
-                    />
-                </View>
-                
-                <View style={styles.textInputWrapper}>
-                    <TextInput
-                        ref={(input) => { this.secondTextInput = input; }}
-                        style={styles.basicInputField}
-                        onChangeText={(text) => this.setState({ itemDescription: text })}
-                        clearButtonMode='while-editing'
-                        placeholder='Description (optional)'
-                        placeholderTextColor='rgb(198,198,202)'
-                        value={this.state.itemDescription}
-                        returnKeyType={'default'}
-                        selectionColor='rgb(7,106,219)'
-                        enablesReturnKeyAutomatically={false}
-                        blurOnSubmit
-                    />
-                </View>
-
-
-                <TouchableHighlight 
-                    style={[styles.selectInputWrapper, { marginTop: 60 }]}
-                    underlayColor={'rgb(235,235,235)'}
-                    onPress={() => { this.setState({ showQuantPicker: !showQuantPicker }) }}
-                    hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
-                >
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 8 }}>
-                        <Text style={{ fontSize: 17, color: 'rgba(0,0,0,0.65)' }}>Quantity</Text>
-                        <Text style={{ fontSize: 17, fontWeight: '600' }}>{quantity}</Text>
-                    </View>
-                </TouchableHighlight>
-                { showQuantPicker &&
-                    <CustomPicker data={quantity_data} selectedVal={quantity} onValChange={(itemValue) => { this.setState({ quantity: itemValue }) }} />
-                }
-
-                <TouchableHighlight
-                    style={styles.selectInputWrapper}
-                    underlayColor={'rgb(235,235,235)'}
-                    onPress={() => { this.setState({ showUnitPicker: !showUnitPicker }) }}
-                    hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
-                >
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 8 }}>
-                        <Text style={{ fontSize: 17, color: 'rgba(0,0,0,0.65)' }}>Unit</Text>
-                        <Text style={{ fontSize: 17, fontWeight: '600' }}>{unit}</Text>
-                    </View>
-                </TouchableHighlight>
-                { showUnitPicker &&
-                    <CustomPicker data={quantity < 2 || quantity === "" ? single_units : multi_units} selectedVal={unit} onValChange={(itemValue) => { this.setState({ unit: itemValue }) }} />
-                }
-
-            </View>
-            </DismissKeyboard>
         )
     }
 }

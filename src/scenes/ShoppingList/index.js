@@ -11,11 +11,11 @@ export default class ShoppingList extends Component {
     static navigationOptions = ({ navigation }) => {
         // const item = navigation.getParam('item');
         return {
-            title: null,
+            title: navigation.getParam('item').title,
             headerRight: (<HeaderButton text={'Add Item'} onPress={navigation.getParam('createNewItem')} />),
             headerStyle: {
-                backgroundColor: 'rgba(255,255,255,0.98)',
-                borderBottomColor: 'transparent',
+                backgroundColor: 'rgb(250,250,250)',
+                borderBottomColor: 'rgb(100,100,100)',
             },
             headerTransparent: false,
             // headerBackground: (<BlurView style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 65}} blurType="light" blurAmount={20}/>)
@@ -45,10 +45,12 @@ export default class ShoppingList extends Component {
     _addItem = (category, data) => {
         const { navigation } = this.props;
         const addGroceriesFunc = navigation.getParam('addGroceries');
-        addGroceriesFunc(navigation.getParam('index'), category, data)
+        addGroceriesFunc(navigation.getParam('index'), category, data);
+        this.forceUpdate()
     }    
 
-    _createSections(obj) {
+    _createSections(x) {
+        let obj = this.sortObjKeysAlphabetically(x)
         const resultArray = []
         for (const key in obj) {
             if (obj.hasOwnProperty(key)) {
@@ -56,6 +58,14 @@ export default class ShoppingList extends Component {
             }
         }
         return resultArray;
+    }
+
+    sortObjKeysAlphabetically(obj) {
+        var ordered = {};
+        Object.keys(obj).sort().forEach(function (key) {
+            ordered[key] = obj[key];
+        });
+        return ordered;
     }
 
     _renderSectionHeader({ section }) {
@@ -66,9 +76,10 @@ export default class ShoppingList extends Component {
     _renderRow({item, index, section}) {
         const data = item;
         const itemName = data.item;
-        const description = data.desc ? data.desc : '';
-        const quantity = data.quant ? data.quant : '';
-        const unit = data.unit ? data.unit : '';
+        const description = data.desc;
+        const quantity = data.quant;
+        const unit = data.unit;
+        const amount = unit ? `${quantity} ${unit}` : quantity
         return (
             <View key={index} style={styles.itemRow}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -79,12 +90,15 @@ export default class ShoppingList extends Component {
                     />
                     <View>
                         <Text style={styles.itemName}>{itemName}</Text>
-                        <Text style={styles.rowSubText}>{description}</Text>
+                        { !!description &&
+                            <Text style={styles.itemDesc}>{description}</Text>
+                        }
                     </View>
                 </View>
                 <View style={styles.itemRightTextContainer}>
-                    <Text style={styles.itemRightTextMain}>{quantity}</Text>
-                    <Text style={styles.itemRightTextSub}>{unit}</Text>
+                    <View style={styles.pill}>
+                        <Text style={styles.pillText}>{amount}</Text>
+                    </View>
                 </View>
             </View>
         );
@@ -94,14 +108,15 @@ export default class ShoppingList extends Component {
         const sections = this._createSections(this.state.item.groceries);
 
         return (
-            <View style={styles.container}>
+            <View style={[styles.container]}>
 
                 <SectionList
                     style={{flex: 1}}
-                    ListHeaderComponent={<Text style={styles.title}>{this.state.item.title}</Text>}
+                    // ListHeaderComponent={<Text style={styles.title}>{this.state.item.title}</Text>}
                     sections={sections}
                     renderSectionHeader={this._renderSectionHeader.bind(this)}
-                    renderSectionFooter={({ section }) => <View style={{height: 26}} />}
+                    ItemSeparatorComponent={({ highlighted }) => <View style={[styles.shortSeparator, highlighted && { marginLeft: 0 }]} />}
+                    renderSectionFooter={({ section }) => <View style={{ borderColor: 'rgb(194,193,196)', borderTopWidth: 0.5, marginLeft: 18, marginBottom: 12}} />}
                     renderItem={this._renderRow.bind(this)}
                     keyExtractor={(item, index) => index}
                     stickySectionHeadersEnabled={true}

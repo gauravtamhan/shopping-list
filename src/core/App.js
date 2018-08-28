@@ -29,6 +29,9 @@ const RootStack = createStackNavigator(
   {
     Main: {
       screen: MainStack,
+      navigationOptions: () => ({
+        header: null
+      })
     },
     CreateListModal: {
       screen: CreateListModal,
@@ -39,7 +42,7 @@ const RootStack = createStackNavigator(
   },
   {
     mode: 'modal',
-    headerMode: 'none',
+    headerMode: 'screen',
   }
 );
 

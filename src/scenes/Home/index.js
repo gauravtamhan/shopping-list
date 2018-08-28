@@ -9,10 +9,10 @@ import Swipeout from 'react-native-swipeout';
 export default class Home extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
-            title: 'Shopping List',
+            title: 'Lists',
             headerStyle: {
                 backgroundColor: 'rgb(250,250,250)',
-                borderBottomColor: '#fff',
+                borderBottomColor: 'rgb(100,100,100)',
             },
             headerBackTitle: null,
             headerLeft: (<HeaderButton text={'Edit'} />),
@@ -42,7 +42,6 @@ export default class Home extends Component {
     }
 
     componentDidUpdate() {
-        console.log('new thing added!')
         this._storeData()
     }
 
@@ -126,7 +125,6 @@ export default class Home extends Component {
         
         return (
             <View style={ styles.container }>
-                <View style={{ backgroundColor: 'rgb(100,100,100)', height: 0.6 }} />
                 <FlatList
                     data={lists}
                     renderItem={this._renderItem}

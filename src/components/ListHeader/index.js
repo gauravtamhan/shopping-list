@@ -9,7 +9,7 @@ export default class ListHeader extends Component {
         const { text } = this.props;
         return (
             <View style={styles.listHeaderContainer}>
-                <Text style={styles.listHeader}>{text.toUpperCase()}</Text>
+                <Text style={styles.listHeader}>{text}</Text>
             </View>
         )
     }
