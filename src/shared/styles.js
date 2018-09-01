@@ -104,43 +104,27 @@ const styles = StyleSheet.create({
     /*------------------------
         Shopping List Scene
      ------------------------*/
-    // title: {
-    //     paddingHorizontal: 18, 
-    //     marginTop: 4, 
-    //     marginBottom: 12,
-    //     fontSize: 30, 
-    //     fontWeight: "700",
-    //     color: TITLE_COLOR
-    // },
     shortSeparator: {
         height: 0.5,
         backgroundColor: 'rgb(194,193,196)',
         marginLeft: 54,
     },
     itemRow: {
-        flex: 1, 
         flexDirection: 'row', 
-        justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: '#fff',
         paddingLeft: 18,
         paddingRight: 12,
-        paddingVertical: 12,
+        paddingVertical: 14,
     },
     itemName: {
         fontSize: 17,
-    },
-    itemDesc: {
-        fontSize: 14,
-        fontWeight: '400',
-        color: SUBTEXT_COLOR,
-        marginTop: 2,
+        flex: 2,
     },
     itemRightTextContainer: {
         flexDirection: 'column', 
         justifyContent: 'center', 
         alignItems: 'flex-end', 
-        width: '35%',
     },
     pill: {
         paddingVertical: 4,

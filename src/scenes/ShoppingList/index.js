@@ -70,30 +70,24 @@ export default class ShoppingList extends Component {
     _renderRow({item, index, section}) {
         const data = item;
         const itemName = data.item;
-        const description = data.desc;
         const quantity = data.quant;
         const unit = data.unit;
         const amount = unit ? `${quantity} ${unit}` : quantity
         return (
             <View key={index} style={styles.itemRow}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <CheckBox
                         style={{ paddingRight: 16 }}
                         onClick={() => this._onCheck(data)}
                         isChecked={data.marked}
                     />
-                    <View>
+                    <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
                         <Text style={styles.itemName}>{itemName}</Text>
-                        { !!description &&
-                            <Text style={styles.itemDesc}>{description}</Text>
-                        }
+                        <View style={styles.itemRightTextContainer}>
+                            <View style={styles.pill}>
+                                <Text style={styles.pillText}>{amount}</Text>
+                            </View>
+                        </View>
                     </View>
-                </View>
-                <View style={styles.itemRightTextContainer}>
-                    <View style={styles.pill}>
-                        <Text style={styles.pillText}>{amount}</Text>
-                    </View>
-                </View>
             </View>
         );
     }

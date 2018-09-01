@@ -231,7 +231,6 @@ export default class AddItemModal extends Component {
         super(props);
         this.state = {
             itemName: '',
-            itemDescription: '',
             selectedCategoryIndex: 0,
             quantity: 1,
             unit: 'none',
@@ -254,12 +253,11 @@ export default class AddItemModal extends Component {
     }
 
     _handleDone = () => {
-        const { selectedCategoryIndex, itemName, itemDescription, quantity, unit } = this.state;
+        const { selectedCategoryIndex, itemName, quantity, unit } = this.state;
         const addItemFunc = this.props.navigation.getParam('addItem')
         const category = categories[selectedCategoryIndex];
         let data = {
             item: itemName,
-            desc: itemDescription === '' ? null : itemDescription,
             quant: quantity,
             unit: unit === 'none' ? null : unit,
             marked: false,
@@ -271,7 +269,7 @@ export default class AddItemModal extends Component {
 
 
     render() {
-        const { selectedCategoryIndex, itemName, itemDescription, quantity, unit, showQuantPicker, showUnitPicker } = this.state;
+        const { selectedCategoryIndex, itemName, quantity, unit, showQuantPicker, showUnitPicker } = this.state;
         return (
                 <View style={[styles.container, { backgroundColor: 'rgb(242,242,243)' }]}>
                     <ScrollView>
@@ -306,18 +304,16 @@ export default class AddItemModal extends Component {
                             style={styles.iosTextInput}
                             onChangeText={(text) => this.setState({ itemName: text })}
                             clearButtonMode='while-editing'
-                            placeholder='Name'
+                            placeholder='Item'
                             placeholderTextColor='rgb(198,198,202)'
                             value={itemName}
                             returnKeyType={'default'}
                             selectionColor='rgb(7,106,219)'
                             enablesReturnKeyAutomatically={false}
-                            // onSubmitEditing={() => { this.secondTextInput.focus(); }}
                             blurOnSubmit
                         />
-                        <View style={styles.separator} />
+                        {/* <View style={styles.separator} />
                         <TextInput
-                            // ref={(input) => { this.secondTextInput = input; }}
                             style={styles.iosTextInput}
                             onChangeText={(text) => this.setState({ itemDescription: text })}
                             clearButtonMode='while-editing'
@@ -328,7 +324,7 @@ export default class AddItemModal extends Component {
                             selectionColor='rgb(7,106,219)'
                             enablesReturnKeyAutomatically={false}
                             blurOnSubmit
-                        />
+                        /> */}
                     </View>
                     
                     <View style={styles.iosTextInputWrapper}>
