@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 18,
         paddingVertical: 10,
         fontSize: 17,
+        marginRight: 8,
     },
     iosDescriptorText: { 
         paddingHorizontal: 18,
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         paddingLeft: 18,
         paddingRight: 12,
-        paddingVertical: 8,
+        paddingVertical: 12,
     },
     itemName: {
         fontSize: 17,

@@ -1,24 +1,18 @@
 import React, { Component } from 'react';
 import { Text, View, SectionList } from 'react-native';
 import styles from '@theme/styles';
-import HeaderButton from '@components/HeaderButton/index';
+import { HeaderButton, HeaderBar } from '@components/Header/index';
 import ListHeader from '@components/ListHeader/index';
-import { BlurView } from 'react-native-blur';
 import CheckBox from 'react-native-check-box';
 
 
 export default class ShoppingList extends Component {
     static navigationOptions = ({ navigation }) => {
-        // const item = navigation.getParam('item');
         return {
             title: navigation.getParam('item').title,
             headerRight: (<HeaderButton text={'Add Item'} onPress={navigation.getParam('createNewItem')} />),
-            headerStyle: {
-                backgroundColor: 'rgb(250,250,250)',
-                borderBottomColor: 'rgb(100,100,100)',
-            },
-            headerTransparent: false,
-            // headerBackground: (<BlurView style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 65}} blurType="light" blurAmount={20}/>)
+            headerTransparent: true,
+            headerBackground: (<HeaderBar />)
         }
     };
 
@@ -111,15 +105,15 @@ export default class ShoppingList extends Component {
             <View style={[styles.container]}>
 
                 <SectionList
-                    style={{flex: 1}}
-                    // ListHeaderComponent={<Text style={styles.title}>{this.state.item.title}</Text>}
+                    ListHeaderComponent={<View style={{ height: 65 }} />}
+                    contentInset={{bottom: 30}}
                     sections={sections}
                     renderSectionHeader={this._renderSectionHeader.bind(this)}
                     ItemSeparatorComponent={({ highlighted }) => <View style={[styles.shortSeparator, highlighted && { marginLeft: 0 }]} />}
                     renderSectionFooter={({ section }) => <View style={{ borderColor: 'rgb(194,193,196)', borderTopWidth: 0.5, marginLeft: 18, marginBottom: 12}} />}
                     renderItem={this._renderRow.bind(this)}
                     keyExtractor={(item, index) => index}
-                    stickySectionHeadersEnabled={true}
+                    stickySectionHeadersEnabled={false}
                 />
 
             </View>

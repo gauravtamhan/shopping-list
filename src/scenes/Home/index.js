@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableHighlight, Button, FlatList, AsyncStorage } from 'react-native';
 import styles from '@theme/styles'
-import HeaderButton from '@components/HeaderButton/index';
-import ListHeader from '@components/ListHeader/index';
+import { HeaderButton, HeaderBar } from '@components/Header/index';
 import ListRow from '@components/ListRow/index'
 import Swipeout from 'react-native-swipeout';
 
@@ -10,11 +9,9 @@ export default class Home extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
             title: 'Lists',
-            headerStyle: {
-                backgroundColor: 'rgb(250,250,250)',
-                borderBottomColor: 'rgb(100,100,100)',
-            },
             headerBackTitle: null,
+            headerTransparent: true,
+            headerBackground: (<HeaderBar />),
             headerLeft: (<HeaderButton text={'Edit'} />),
             headerRight: (<HeaderButton text={'New'} onPress={navigation.getParam('createNewList')} /> )
         }
@@ -126,6 +123,7 @@ export default class Home extends Component {
         return (
             <View style={ styles.container }>
                 <FlatList
+                    ListHeaderComponent={<View style={{height: 65}} />}
                     data={lists}
                     renderItem={this._renderItem}
                     ItemSeparatorComponent={({ highlighted }) => <View style={[styles.separator, highlighted && { marginLeft: 0 }]} />}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, TextInput, Keyboard, ScrollView } from 'react-native';
 import styles from '@theme/styles';
 import { NAV_COLOR } from '@theme/colors';
-import HeaderButton from '@components/HeaderButton/index';
+import { HeaderButton, HeaderBar } from '@components/Header/index';
 
 
 
@@ -10,10 +10,8 @@ export default class CreateListModal extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
             title: 'New List',
-            headerStyle: {
-                backgroundColor: 'rgb(250,250,250)',
-                borderBottomColor: 'rgb(100,100,100)',
-            },
+            headerTransparent: true,
+            headerBackground: (<HeaderBar />),
             headerLeft: (<HeaderButton text={'Cancel'} onPress={navigation.getParam('cancelModal')} />),
             // headerRight: (<HeaderButton text={'Done'} onPress={navigation.getParam('handleDone')} />)
         }
@@ -53,12 +51,12 @@ export default class CreateListModal extends Component {
         return (
             <View style={[styles.container, { backgroundColor: 'rgb(242,242,243)' }]}>
                 <ScrollView>
+                    <View style={{height: 65}} />
                     <View style={styles.iosTextInputWrapper}> 
                         <TextInput
                             style={styles.iosTextInput}
                             onChangeText={(text) => this.setState({ name: text })}
                             autoCapitalize='words'
-                            // autoCorrect={false} 
                             autoFocus={true}
                             clearButtonMode='while-editing'
                             placeholder='Title'

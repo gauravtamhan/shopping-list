@@ -10,7 +10,7 @@ import {
     TouchableHighlight 
 } from 'react-native';
 import styles from '@theme/styles'
-import HeaderButton from '@components/HeaderButton/index';
+import {HeaderButton, HeaderBar} from '@components/Header/index';
 import DismissKeyboard from '@components/Utilities/dismissKeyboard';
 import CustomPicker from './customPicker';
 import { NAV_COLOR } from '@theme/colors';
@@ -220,10 +220,8 @@ export default class AddItemModal extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
             title: 'Add Item',
-            headerStyle: {
-                backgroundColor: 'rgb(250,250,250)',
-                borderBottomColor: 'rgb(100,100,100)',
-            },
+            headerTransparent: true,
+            headerBackground: (<HeaderBar />),
             headerLeft: (<HeaderButton text={'Cancel'} onPress={navigation.getParam('cancelModal')}  />),
             headerRight: (<HeaderButton text={'Done'} style={{fontWeight: '600'}} onPress={navigation.getParam('handleDone')}  />)
         }
@@ -277,6 +275,7 @@ export default class AddItemModal extends Component {
         return (
                 <View style={[styles.container, { backgroundColor: 'rgb(242,242,243)' }]}>
                     <ScrollView>
+                    <View style={{height: 65}} />
                     <Text style={styles.iosDescriptorText}>{'choose a category'.toUpperCase()}</Text>
                     <View style={[styles.iosTextInputWrapper, {marginTop: 0}]}>
                         <View style={{height: 50, marginVertical: 10}}>
