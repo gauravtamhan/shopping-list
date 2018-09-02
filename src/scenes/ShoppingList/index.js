@@ -3,7 +3,9 @@ import { Text, View, SectionList } from 'react-native';
 import styles from '@theme/styles';
 import { HeaderButton, HeaderBar } from '@components/Header/index';
 import ListHeader from '@components/ListHeader/index';
-import CheckBox from 'react-native-check-box';
+// import CheckBox from 'react-native-check-box';
+import { CheckBox } from 'native-base';
+import { NAV_COLOR } from '@theme/colors';
 
 
 export default class ShoppingList extends Component {
@@ -25,7 +27,6 @@ export default class ShoppingList extends Component {
     }
 
     componentDidMount() {
-        console.log(this.state.item)
         this.props.navigation.setParams({ createNewItem: this._createNewItem });
     }
 
@@ -40,8 +41,15 @@ export default class ShoppingList extends Component {
         const { navigation } = this.props;
         const addGroceriesFunc = navigation.getParam('addGroceries');
         addGroceriesFunc(navigation.getParam('index'), category, data);
-        this.forceUpdate()
-    }    
+        this.forceUpdate();
+    }
+    
+    _toggleCheckForItem = (category, catIndex) => {
+        const { navigation } = this.props;
+        const checkItemFunc = navigation.getParam('checkItem');
+        checkItemFunc(navigation.getParam('index'), category, catIndex);
+        this.forceUpdate();
+    }
 
     _createSections(x) {
         let obj = this.sortObjKeysAlphabetically(x)
@@ -73,17 +81,20 @@ export default class ShoppingList extends Component {
         const quantity = data.quant;
         const unit = data.unit;
         const amount = unit ? `${quantity} ${unit}` : quantity
+        const marked = data.marked
         return (
             <View key={index} style={styles.itemRow}>
                     <CheckBox
-                        style={{ paddingRight: 16 }}
-                        onClick={() => this._onCheck(data)}
-                        isChecked={data.marked}
+                        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                        style={{ marginRight: 22, marginLeft: -10 }}
+                        color={NAV_COLOR}
+                        checked={marked}
+                        onPress={() => this._toggleCheckForItem(section.title, index) }
                     />
                     <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
-                        <Text style={styles.itemName}>{itemName}</Text>
+                        <Text style={[styles.itemName, marked ? styles.itemNameMarked : null]}>{itemName}</Text>
                         <View style={styles.itemRightTextContainer}>
-                            <View style={styles.pill}>
+                            <View style={[styles.pill, marked ? styles.pillMarked : null]}>
                                 <Text style={styles.pillText}>{amount}</Text>
                             </View>
                         </View>

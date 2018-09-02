@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableHighlight, Button, FlatList, AsyncStorage } from 'react-native';
+import { Text, View, TouchableHighlight, FlatList, AsyncStorage } from 'react-native';
 import styles from '@theme/styles'
 import { HeaderButton, HeaderBar } from '@components/Header/index';
 import ListRow from '@components/ListRow/index'
-import Swipeout from 'react-native-swipeout';
+
 
 export default class Home extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -12,7 +12,6 @@ export default class Home extends Component {
             headerBackTitle: null,
             headerTransparent: true,
             headerBackground: (<HeaderBar />),
-            headerLeft: (<HeaderButton text={'Edit'} />),
             headerRight: (<HeaderButton text={'New'} onPress={navigation.getParam('createNewList')} /> )
         }
     };
@@ -34,7 +33,6 @@ export default class Home extends Component {
 
     componentDidMount() {
         this.props.navigation.setParams({ createNewList: this._createNewList });
-        // this.setState({ lists: dataSource.lists })
         this._loadSavedData()
     }
 
@@ -87,33 +85,39 @@ export default class Home extends Component {
         this.forceUpdate()
     }
 
-    _renderItem = ({ item, index, separators }) => {
-        let swipeBtns = [{
-            text: 'Delete',
-            type: 'delete',
-            backgroundColor: 'rgb(255, 59, 48)',
-            underlayColor: 'rgb(227, 55, 51)',
-            onPress: () => { this._removeList(index) }
-        }]
+    _checkItem = (index, category, catIndex) => {
+        let newState = Object.assign({}, this.state);
+        newState.lists[index].groceries[category][catIndex].marked = !this.state.lists[index].groceries[category][catIndex].marked
+        this.setState(newState);
+    }
 
+    countNumberOfItemInList(obj) {
+        let count = 0;
+        for (key in obj) {
+            count += obj[key].length;
+        }
+        return count;
+    }
+
+    _renderItem = ({ item, index, separators }) => {
         return (
-            <Swipeout 
-                right={swipeBtns} 
-                autoClose={true} 
-                backgroundColor='transparent'
-                buttonWidth={70}
-            >
-                <ListRow
-                    separators={separators}
-                    title={item.title}
-                    date={new Date(item.date).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}
-                    time={new Date(item.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    groceries={item.groceries}
-                    onPressItem={
-                        () => this.props.navigation.navigate('ShoppingList', { item, index, addGroceries: this._addGroceries })
-                    }
-                />
-            </Swipeout>
+            <ListRow
+                separators={separators}
+                title={item.title}
+                index={index}
+                handleRemove={this._removeList}
+                date={new Date(item.date).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}
+                time={new Date(item.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                count={this.countNumberOfItemInList(item.groceries)}
+                onPressItem={
+                    () => this.props.navigation.navigate('ShoppingList', { 
+                        item, 
+                        index,
+                        addGroceries: this._addGroceries,
+                        checkItem: this._checkItem
+                        })
+                }
+            />
         )
     }
 

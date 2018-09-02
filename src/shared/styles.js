@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
 
     // Main List Row
     listRow: {
-        flex: 1,
+        // flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -115,11 +115,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         paddingLeft: 18,
         paddingRight: 12,
-        paddingVertical: 14,
+        paddingVertical: 10,
     },
     itemName: {
         fontSize: 17,
         flex: 2,
+    },
+    itemNameMarked: {
+        color: 'rgba(0,0,0,0.3)',
     },
     itemRightTextContainer: {
         flexDirection: 'column', 
@@ -131,17 +134,23 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         borderRadius: 5,
 
-        borderWidth: 1.5,
+        borderWidth: 1,
         borderColor: NAV_COLOR,
         backgroundColor: 'transparent',
 
         // backgroundColor: 'rgb(242,242,243)',
     },
+    pillMarked: {
+        opacity: 0.3,
+    },
     pillText: {
         fontSize: 13, 
         // color: 'rgba(0,0,0,0.7)',
         color: NAV_COLOR,
-        fontWeight: '600'
+        fontWeight: '500'
+    },
+    pillTextMarked: {
+        opacity: 0.3,
     },
 
     /*------------------------

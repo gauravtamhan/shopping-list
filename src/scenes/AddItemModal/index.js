@@ -312,19 +312,6 @@ export default class AddItemModal extends Component {
                             enablesReturnKeyAutomatically={false}
                             blurOnSubmit
                         />
-                        {/* <View style={styles.separator} />
-                        <TextInput
-                            style={styles.iosTextInput}
-                            onChangeText={(text) => this.setState({ itemDescription: text })}
-                            clearButtonMode='while-editing'
-                            placeholder='Description (optional)'
-                            placeholderTextColor='rgb(198,198,202)'
-                            value={itemDescription}
-                            returnKeyType={'default'}
-                            selectionColor='rgb(7,106,219)'
-                            enablesReturnKeyAutomatically={false}
-                            blurOnSubmit
-                        /> */}
                     </View>
                     
                     <View style={styles.iosTextInputWrapper}>
