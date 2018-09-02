@@ -133,6 +133,10 @@ const single_units = [
         value: "packet"
     },
     {
+        label: 'pint',
+        value: "pint"
+    },
+    {
         label: 'pound',
         value: "pound"
     },
@@ -194,6 +198,10 @@ const multi_units = [
     {
         label: 'packets',
         value: "packets"
+    },
+    {
+        label: 'pints',
+        value: "pints"
     },
     {
         label: 'pounds',

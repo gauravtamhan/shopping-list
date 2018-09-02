@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image, Animated, TouchableHighlight } from 'react-native';
+import { Text, View, Animated, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Swipeout from 'react-native-swipeout';
 import styles from '@theme/styles'
@@ -20,7 +20,7 @@ export default class ListRow extends Component {
     }
 
     render() {
-        const { separators, title, time, date, count, handleRemove, index } = this.props;
+        const { separators, title, date, count, handleRemove, index } = this.props;
         let swipeBtns = [{
             text: 'Delete',
             type: 'delete',
@@ -51,13 +51,12 @@ export default class ListRow extends Component {
                             <View style={{ flexDirection: 'column' }}>
                                 <Text style={styles.rowMainText}>{title}</Text>
                                 <View style={{flexDirection: 'row'}}>
-                                    <Text style={[styles.rowSubText, { fontWeight: '500', color: 'rgb(110,110,115)', marginTop: 5 }]}>{date} </Text>
-                                    <Text style={[styles.rowSubText, { marginTop: 5 }]}> {time}</Text>
+                                    <Text style={[styles.rowSubText, { marginTop: 5 }]}>{date} </Text>
                                 </View>
                             </View>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
-                            <Text style={styles.rowSubText}>{count} Items</Text>
+                            <Text style={styles.rowSubText}>{count} {count === 1 ? 'Item' : 'Items'}</Text>
                             <Icon style={styles.rightChevron} name={'ios-arrow-forward'} size={18} />
                         </View>
                     </View>

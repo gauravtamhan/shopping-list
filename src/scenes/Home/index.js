@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableHighlight, FlatList, AsyncStorage } from 'react-native';
+import { Text, View, FlatList, AsyncStorage, Dimensions } from 'react-native';
 import styles from '@theme/styles'
 import { HeaderButton, HeaderBar } from '@components/Header/index';
 import ListRow from '@components/ListRow/index'
+import moment from 'moment';
 
+var REFERENCE = moment();
+var TODAY = REFERENCE.clone().startOf('day');
+var YESTERDAY = REFERENCE.clone().subtract(1, 'days').startOf('day');
+var A_WEEK_OLD = REFERENCE.clone().subtract(7, 'days').startOf('day');
 
 export default class Home extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -19,7 +24,7 @@ export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            lists: []
+            lists: [{title: ''}]
         }
         this._createNewList = this._createNewList.bind(this);
     }
@@ -99,15 +104,39 @@ export default class Home extends Component {
         return count;
     }
 
+    calculateDateTime(givenDateTime) {
+        const dateTime = moment(new Date(givenDateTime));
+
+        if (this.isToday(dateTime)) {
+            return dateTime.format("h:mm A");
+        } else if (this.isYesterday(dateTime)) {
+            return 'Yesterday';
+        } else if (this.isWithinAWeek(dateTime)) {
+            return dateTime.format('dddd');
+        } else {
+            return dateTime.format("MMMM D, YYYY")
+        }
+    }
+
+    isToday(momentDate) {
+        return momentDate.isSame(TODAY, 'd');
+    }
+    isYesterday(momentDate) {
+        return momentDate.isSame(YESTERDAY, 'd');
+    }
+    isWithinAWeek(momentDate) {
+        return momentDate.isAfter(A_WEEK_OLD);
+    }
+
     _renderItem = ({ item, index, separators }) => {
+        const d = item.date ? this.calculateDateTime(item.date) : '';
         return (
             <ListRow
                 separators={separators}
                 title={item.title}
                 index={index}
                 handleRemove={this._removeList}
-                date={new Date(item.date).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}
-                time={new Date(item.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                date={d}
                 count={this.countNumberOfItemInList(item.groceries)}
                 onPressItem={
                     () => this.props.navigation.navigate('ShoppingList', { 
@@ -123,10 +152,16 @@ export default class Home extends Component {
 
     render() {
         const { lists } = this.state;
-        
+        const { height, width } = Dimensions.get('window');
+
         return (
             <View style={ styles.container }>
                 <FlatList
+                    ListEmptyComponent={
+                        <View style={{width: width, height: height - 140, alignItems: 'center', justifyContent: 'center'}}>
+                            <Text style={{ width: '72%', fontSize: 27, fontWeight: '300' }}>To create a new shopping list, tap <Text style={{fontWeight: '600'}}>New</Text> in the top right corner.</Text>
+                        </View>
+                    }
                     ListHeaderComponent={<View style={{height: 65}} />}
                     data={lists}
                     renderItem={this._renderItem}

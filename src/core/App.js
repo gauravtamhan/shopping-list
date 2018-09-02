@@ -5,7 +5,7 @@ import Home from '@scenes/Home/index';
 import ShoppingList from '@scenes/ShoppingList/index';
 import CreateListModal from '@scenes/CreateListModal/index';
 import AddItemModal from '@scenes/AddItemModal/index';
-
+import SplashScreen from 'react-native-splash-screen';
 import { NAV_COLOR } from '@theme/colors';
 
 
@@ -47,6 +47,11 @@ const RootStack = createStackNavigator(
 );
 
 export default class App extends Component {
+
+  componentDidMount() {
+    SplashScreen.hide();
+  }
+
   render() {
     return (
       // <View style={{ flex: 1 }}>

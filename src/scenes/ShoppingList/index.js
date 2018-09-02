@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, SectionList } from 'react-native';
+import { Text, View, SectionList, Dimensions } from 'react-native';
 import styles from '@theme/styles';
 import { HeaderButton, HeaderBar } from '@components/Header/index';
 import ListHeader from '@components/ListHeader/index';
@@ -105,12 +105,17 @@ export default class ShoppingList extends Component {
 
     render() {
         const sections = this._createSections(this.state.item.groceries);
-
+        const { height, width } = Dimensions.get('window');
         return (
             <View style={[styles.container]}>
 
                 <SectionList
                     ListHeaderComponent={<View style={{ height: 65 }} />}
+                    ListEmptyComponent={
+                        <View style={{ width: width, height: height - 140, alignItems: 'center', justifyContent: 'center' }}>
+                            <Text style={{ width: '72%', fontSize: 27, fontWeight: '300' }}>To add an item to your list, tap <Text style={{ fontWeight: '600' }}>Add Item</Text> in the top right corner.</Text>
+                        </View>
+                    }
                     contentInset={{bottom: 30}}
                     sections={sections}
                     renderSectionHeader={this._renderSectionHeader.bind(this)}
