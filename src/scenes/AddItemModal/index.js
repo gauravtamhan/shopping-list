@@ -6,14 +6,12 @@ import {
     Keyboard, 
     ScrollView, 
     TouchableWithoutFeedback, 
-    Picker, 
-    TouchableHighlight 
+    Alert
 } from 'react-native';
 import styles from '@theme/styles'
 import {HeaderButton, HeaderBar} from '@components/Header/index';
 import DismissKeyboard from '@components/Utilities/dismissKeyboard';
 import CustomPicker from './customPicker';
-import { NAV_COLOR } from '@theme/colors';
 
 const categories = [
     "Bakery",
@@ -234,8 +232,6 @@ export default class AddItemModal extends Component {
             selectedCategoryIndex: 0,
             quantity: 1,
             unit: 'none',
-            showQuantPicker: false,
-            showUnitPicker: false,
         }
     }
 
@@ -254,22 +250,25 @@ export default class AddItemModal extends Component {
 
     _handleDone = () => {
         const { selectedCategoryIndex, itemName, quantity, unit } = this.state;
-        const addItemFunc = this.props.navigation.getParam('addItem')
-        const category = categories[selectedCategoryIndex];
-        let data = {
-            item: itemName,
-            quant: quantity,
-            unit: unit === 'none' ? null : unit,
-            marked: false,
-        }
+        if (itemName === '') {
+            Alert.alert('Item field required.')
+        } else {
+            const addItemFunc = this.props.navigation.getParam('addItem')
+            const category = categories[selectedCategoryIndex];
+            let data = {
+                item: itemName,
+                quant: quantity,
+                unit: unit === 'none' ? null : unit,
+                marked: false,
+            }
 
-        addItemFunc(category, data);
-        this._cancelModal();
+            addItemFunc(category, data);
+            this._cancelModal();
+        }
     }
 
-
     render() {
-        const { selectedCategoryIndex, itemName, quantity, unit, showQuantPicker, showUnitPicker } = this.state;
+        const { selectedCategoryIndex, itemName, quantity, unit } = this.state;
         return (
                 <View style={[styles.container, { backgroundColor: 'rgb(242,242,243)' }]}>
                     <ScrollView>
@@ -315,36 +314,21 @@ export default class AddItemModal extends Component {
                     </View>
                     
                     <View style={styles.iosTextInputWrapper}>
-                        <TouchableHighlight 
-                            style={styles.selectInputWrapper}
-                            underlayColor={'rgb(235,235,235)'}
-                            onPress={() => { this.setState({ showQuantPicker: !showQuantPicker }) }}
-                            hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
-                        >
-                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                                <Text style={{ fontSize: 17 }}>Quantity</Text>
-                                <Text style={{ fontSize: 17, color: NAV_COLOR }}>{quantity}</Text>
-                            </View>
-                        </TouchableHighlight>
-                    
-                    { showQuantPicker &&
-                        <CustomPicker data={quantity_data} selectedVal={quantity} onValChange={(itemValue) => { this.setState({ quantity: itemValue }) }} />
-                    }
-                    <View style={styles.separator} />
-                    <TouchableHighlight
-                        style={styles.selectInputWrapper}
-                        underlayColor={'rgb(235,235,235)'}
-                        onPress={() => { this.setState({ showUnitPicker: !showUnitPicker }) }}
-                        hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
-                    >
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <Text style={{ fontSize: 17 }}>Unit</Text>
-                            <Text style={{ fontSize: 17, color: NAV_COLOR }}>{unit}</Text>
-                        </View>
-                    </TouchableHighlight>
-                    { showUnitPicker &&
-                        <CustomPicker data={quantity < 2 ? single_units : multi_units} selectedVal={unit} onValChange={(itemValue) => { this.setState({ unit: itemValue }) }} />
-                    }
+                        <CustomPicker 
+                            label={'Quantity'} 
+                            labelValue={quantity} 
+                            data={quantity_data} 
+                            selectedVal={quantity} 
+                            onValChange={(itemValue) => { this.setState({ quantity: itemValue }) }} 
+                        />
+                        <View style={styles.separator} />
+                        <CustomPicker 
+                            label={'Unit'}
+                            labelValue={unit}
+                            data={quantity < 2 ? single_units : multi_units}
+                            selectedVal={unit}
+                            onValChange={(itemValue) => { this.setState({ unit: itemValue }) }}
+                        />
                     </View>
                     </ScrollView>
                 </View>
