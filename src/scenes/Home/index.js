@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, FlatList, AsyncStorage, Dimensions, Alert } from 'react-native';
+import { Text, View, FlatList, AsyncStorage, Dimensions, Image } from 'react-native';
 import styles from '@theme/styles'
 import { HeaderButton, HeaderBar } from '@components/Header/index';
 import ListRow from '@components/ListRow/index'
@@ -198,7 +198,7 @@ export default class Home extends Component {
                     showsVerticalScrollIndicator={false}
                     ListEmptyComponent={
                         <View style={{width: width, height: height - 140, alignItems: 'center', justifyContent: 'center'}}>
-                            <Text style={{ width: '72%', fontSize: 27, fontWeight: '300' }}>To create a new shopping list, tap <Text style={{fontWeight: '600'}}>New</Text> in the top right corner.</Text>
+                            <Text style={{ width: '72%', fontSize: 27, fontWeight: '300' }}>To create a new shopping list, tap <Image source={create} style={{tintColor: '#000', width: 28, height: 28}} /> at the top and enter a title for your list.</Text>
                         </View>
                     }
                     ListHeaderComponent={<View style={{height: 65}} />}
