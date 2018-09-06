@@ -5,7 +5,9 @@ import {
     TextInput, 
     Keyboard, 
     ScrollView, 
-    TouchableWithoutFeedback, 
+    TouchableWithoutFeedback,
+    TouchableHighlight,
+    TouchableOpacity,
     Alert
 } from 'react-native';
 import styles from '@theme/styles'
@@ -278,8 +280,8 @@ export default class AddItemModal extends Component {
     render() {
         const { selectedCategoryIndex, itemName, quantity, unit } = this.state;
         return (
-                <View style={[styles.container, { backgroundColor: 'rgb(242,242,243)' }]}>
-                    <ScrollView>
+            <View style={[styles.container, styles.background]}>
+                <ScrollView keyboardDismissMode={'interactive'}>
                     <View style={{height: 65}} />
                     <Text style={styles.iosDescriptorText}>{'choose a category'.toUpperCase()}</Text>
                     <View style={[styles.iosTextInputWrapper, {marginTop: 0}]}>
@@ -288,8 +290,9 @@ export default class AddItemModal extends Component {
                                 <View style={styles.sliderWrapper}>
                                     {
                                         categories.map((item, index) => (
-                                            <TouchableWithoutFeedback
-                                                key={index} 
+                                            <TouchableOpacity
+                                                key={index}
+                                                activeOpacity={0.8}
                                                 // underlayColor={selectedCategoryIndex === index ? 'rgb(0,102,235)' : 'rgb(238,238,242)'}
                                                 onPress={() => { this.setState({ selectedCategoryIndex: index }) }}
                                                 hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
@@ -297,7 +300,7 @@ export default class AddItemModal extends Component {
                                                 <View style={[styles.sliderPill, selectedCategoryIndex === index ? styles.sliderPillSelected : null]}>
                                                     <Text style={[styles.sliderPillText, selectedCategoryIndex === index ? styles.sliderPillTextSelected : null]}>{item}</Text>
                                                 </View>
-                                            </TouchableWithoutFeedback>
+                                            </TouchableOpacity>
                                         ))
                                     }
                                 </View>
@@ -338,8 +341,8 @@ export default class AddItemModal extends Component {
                             onValChange={(itemValue) => { this.setState({ unit: itemValue }) }}
                         />
                     </View>
-                    </ScrollView>
-                </View>
+                </ScrollView>
+            </View>
         )
     }
 }

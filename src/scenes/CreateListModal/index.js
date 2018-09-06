@@ -49,8 +49,8 @@ export default class CreateListModal extends Component {
 
     render() {
         return (
-            <View style={[styles.container, { backgroundColor: 'rgb(242,242,243)' }]}>
-                <ScrollView>
+            <View style={[styles.container, styles.background]}>
+                <ScrollView keyboardDismissMode={'interactive'}>
                     <View style={{height: 65}} />
                     <View style={styles.iosTextInputWrapper}> 
                         <TextInput

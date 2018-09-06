@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     
     // Header Navigation Button
     headerButtonContainer: {
-        marginHorizontal: 18,
+        marginHorizontal: 16,
     },
     headerButton: {
         fontSize: 17,
@@ -18,9 +18,10 @@ const styles = StyleSheet.create({
         fontSize: 17,
         color: 'rgb(170,170,170)'
     },
-    // headerButtonIcon: {
-    //     color: NAV_COLOR,
-    // },
+    headerButtonIcon: {
+        color: NAV_COLOR,
+        fontWeight: '100'
+    },
 
     // List Header
     listHeaderContainer: {
@@ -91,6 +92,17 @@ const styles = StyleSheet.create({
         color: 'rgb(126,126,131)'
     },
 
+    // Swipeout Button Component
+    swipeBtnContainer: { 
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    swipeBtnText: {
+        fontWeight: '500',
+        color: 'white'
+    },
+
     /*=============================================================
                    Scenes - Shared CSS Styles
     ==============================================================*/
@@ -99,6 +111,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+    },
+
+    background: {
+        backgroundColor: 'rgb(239,239,242)'
     },
     
     /*------------------------
@@ -122,7 +138,7 @@ const styles = StyleSheet.create({
         flex: 2,
     },
     itemNameMarked: {
-        color: 'rgba(0,0,0,0.3)',
+        color: 'rgba(0,0,0,0.25)',
     },
     itemRightTextContainer: {
         flexDirection: 'column', 

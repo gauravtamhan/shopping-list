@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, FlatList, AsyncStorage, Dimensions } from 'react-native';
+import { Text, View, FlatList, AsyncStorage, Dimensions, Alert } from 'react-native';
 import styles from '@theme/styles'
 import { HeaderButton, HeaderBar } from '@components/Header/index';
 import ListRow from '@components/ListRow/index'
 import moment from 'moment';
+import create from '@theme/imgs/create.png';
 
 var REFERENCE = moment();
 var TODAY = REFERENCE.clone().startOf('day');
@@ -14,17 +15,19 @@ export default class Home extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
             title: 'Lists',
-            headerBackTitle: null,
             headerTransparent: true,
             headerBackground: (<HeaderBar />),
-            headerRight: (<HeaderButton text={'New'} onPress={navigation.getParam('createNewList')} /> )
+            // headerLeft: (<HeaderButton text={'Edit'} />),
+            headerRight: (<HeaderButton img={create} style={{marginRight: -3}} onPress={navigation.getParam('createNewList')} /> )
         }
     };
 
     constructor(props) {
         super(props);
         this.state = {
-            lists: [{title: ''}]
+            lists: [{ title: '' }],
+            activeIndex: null,
+            scrollEnabled: true,
         }
         this._createNewList = this._createNewList.bind(this);
     }
@@ -53,6 +56,10 @@ export default class Home extends Component {
                 this.setState({
                     lists: JSON.parse(value)
                 })
+            } else {
+                this.setState({
+                    lists: []
+                })
             }
         } catch (error) {
             // Error retrieving data
@@ -73,6 +80,12 @@ export default class Home extends Component {
         this.setState({
             lists: [...this.state.lists, newList]
         })
+    }
+
+    _renameList = (index, str) => {
+        let newState = Object.assign({}, this.state);
+        newState.lists[index].title = str;
+        this.setState(newState);
     }
 
     _removeList = (currentIndex) => {
@@ -102,6 +115,20 @@ export default class Home extends Component {
             count += obj[key].length;
         }
         return count;
+    }
+
+    _handleSwipeOutActiveIndex = (index) => {
+        const { activeIndex } = this.state;
+        if (activeIndex != index) {
+            this.setState({ activeIndex: index })
+        }
+    }
+
+    _handleSwipeoutVertScroll(allowParentScroll) {
+        const { scrollEnabled } = this.state;
+        if (scrollEnabled != allowParentScroll) {
+            this.setState({ scrollEnabled: allowParentScroll })
+        }
     }
 
     calculateDateTime(givenDateTime) {
@@ -135,11 +162,21 @@ export default class Home extends Component {
                 separators={separators}
                 title={item.title}
                 index={index}
-                handleRemove={this._removeList}
                 date={d}
+                onPressRename={
+                    () => this.props.navigation.navigate('RenameListModal', {
+                        renameList: this._renameList,
+                        index,
+                        title: item.title
+                    })
+                }
                 count={this.countNumberOfItemInList(item.groceries)}
+                onSwipeOpen={this._handleSwipeOutActiveIndex}
+                activeIndex={this.state.activeIndex}
+                handleRemove={this._removeList}
+                handleVertScroll={this._handleSwipeoutVertScroll.bind(this)}
                 onPressItem={
-                    () => this.props.navigation.navigate('ShoppingList', { 
+                    () => this.props.navigation.navigate('ShoppingList', {
                         item, 
                         index,
                         addGroceries: this._addGroceries,
@@ -157,6 +194,8 @@ export default class Home extends Component {
         return (
             <View style={ styles.container }>
                 <FlatList
+                    scrollEnabled={this.state.scrollEnabled}
+                    showsVerticalScrollIndicator={false}
                     ListEmptyComponent={
                         <View style={{width: width, height: height - 140, alignItems: 'center', justifyContent: 'center'}}>
                             <Text style={{ width: '72%', fontSize: 27, fontWeight: '300' }}>To create a new shopping list, tap <Text style={{fontWeight: '600'}}>New</Text> in the top right corner.</Text>

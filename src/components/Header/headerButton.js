@@ -1,29 +1,29 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, Image } from 'react-native';
 // import Icon from 'react-native-vector-icons/Feather';
-import Icon from 'react-native-vector-icons/Ionicons';
+// import Icon from 'react-native-vector-icons/Ionicons';
+import { Icon } from 'native-base'
 import styles from '@theme/styles'
+import { NAV_COLOR } from '@theme/colors'
 
 
 export default class HeaderButton extends Component {
 
     render() {
-        const { onPress, text, disabled, style} = this.props;
+        const { onPress, text, style, icon, type, img} = this.props;
         return (
-            <TouchableOpacity onPress={onPress} disabled={disabled} style={styles.headerButtonContainer} hitSlop={{ top: 6, bottom: 6, left: 12, right: 12 }}>
-                <Text style={[disabled ? styles.headerButtonDisabled : styles.headerButton, style]}>{text}</Text>
+            <TouchableOpacity onPress={onPress} style={styles.headerButtonContainer} hitSlop={{ top: 6, bottom: 6, left: 12, right: 12 }}>
+                {!!text &&
+                    <Text style={[styles.headerButton, style]}>{text}</Text>
+                }
+                {!!icon && !!type &&
+                    <Icon style={styles.headerButtonIcon} name={icon} type={type} />
+                }
+                {!!img &&
+                    <Image source={img} style={[{width: 25, height: 25, tintColor: NAV_COLOR}, style]} />
+                }
             </TouchableOpacity>
         )
     }
 }
 
-// return (
-//     <TouchableOpacity onPress={onPress} style={styles.headerButtonContainer} hitSlop={{ top: 6, bottom: 6, left: 12, right: 12 }}>
-//         {!!text &&
-//             <Text style={[styles.headerButton, style]}>{text}</Text>
-//         }
-//         {!!icon && !!size &&
-//             <Icon style={styles.headerButtonIcon} name={icon} size={size} />
-//         }
-//     </TouchableOpacity>
-// )

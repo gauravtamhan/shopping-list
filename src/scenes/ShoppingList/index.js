@@ -6,13 +6,14 @@ import ListHeader from '@components/ListHeader/index';
 // import CheckBox from 'react-native-check-box';
 import { CheckBox } from 'native-base';
 import { NAV_COLOR } from '@theme/colors';
+import plus from '@theme/imgs/plus.png';
 
 
 export default class ShoppingList extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
             title: navigation.getParam('item').title,
-            headerRight: (<HeaderButton text={'Add Item'} onPress={navigation.getParam('createNewItem')} />),
+            headerRight: (<HeaderButton text={'Add'} onPress={navigation.getParam('createNewItem')} />),
             headerTransparent: true,
             headerBackground: (<HeaderBar />)
         }
@@ -108,12 +109,12 @@ export default class ShoppingList extends Component {
         const { height, width } = Dimensions.get('window');
         return (
             <View style={[styles.container]}>
-
                 <SectionList
+                    showsVerticalScrollIndicator={false}
                     ListHeaderComponent={<View style={{ height: 65 }} />}
                     ListEmptyComponent={
                         <View style={{ width: width, height: height - 140, alignItems: 'center', justifyContent: 'center' }}>
-                            <Text style={{ width: '72%', fontSize: 27, fontWeight: '300' }}>To add an item to your list, tap <Text style={{ fontWeight: '600' }}>Add Item</Text> in the top right corner.</Text>
+                            <Text style={{ width: '72%', fontSize: 27, fontWeight: '300' }}>To add an item to your list, tap <Text style={{ fontWeight: '600' }}>Add</Text> in the top right corner.</Text>
                         </View>
                     }
                     contentInset={{bottom: 30}}

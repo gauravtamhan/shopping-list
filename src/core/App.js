@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation';
 import Home from '@scenes/Home/index';
 import ShoppingList from '@scenes/ShoppingList/index';
 import CreateListModal from '@scenes/CreateListModal/index';
+import RenameListModal from '@scenes/RenameListModal/index';
 import AddItemModal from '@scenes/AddItemModal/index';
 import SplashScreen from 'react-native-splash-screen';
 import { NAV_COLOR } from '@theme/colors';
@@ -36,6 +37,9 @@ const RootStack = createStackNavigator(
     CreateListModal: {
       screen: CreateListModal,
     },
+    RenameListModal: {
+      screen: RenameListModal,
+    },
     AddItemModal: {
       screen: AddItemModal,
     },
@@ -43,6 +47,10 @@ const RootStack = createStackNavigator(
   {
     mode: 'modal',
     headerMode: 'screen',
+    navigationOptions: {
+      gesturesEnabled: false,
+      headerTitleStyle: { fontWeight: '600', color: '#000' }
+    },
   }
 );
 
