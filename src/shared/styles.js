@@ -103,6 +103,12 @@ const styles = StyleSheet.create({
         color: 'white'
     },
 
+    // Footer Text
+    footerText: {
+        fontSize: 11,
+        fontWeight: '400'
+    },
+
     /*=============================================================
                    Scenes - Shared CSS Styles
     ==============================================================*/

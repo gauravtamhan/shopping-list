@@ -8,6 +8,7 @@ import {
     TouchableWithoutFeedback,
     TouchableHighlight,
     TouchableOpacity,
+    PickerIOS,
     Alert
 } from 'react-native';
 import styles from '@theme/styles'
@@ -240,7 +241,7 @@ export default class AddItemModal extends Component {
         this.state = {
             itemName: '',
             selectedCategoryIndex: 0,
-            quantity: 1,
+            quantity: '',
             unit: 'none',
         }
     }
@@ -322,17 +323,29 @@ export default class AddItemModal extends Component {
                             enablesReturnKeyAutomatically={false}
                             blurOnSubmit
                         />
+                        <View style={styles.separator}></View>
+                        <TextInput
+                            style={styles.iosTextInput}
+                            onChangeText={(n) => this.setState({ quantity: n })}
+                            clearButtonMode='while-editing'
+                            placeholder='Quantity'
+                            keyboardType='numeric'
+                            placeholderTextColor='rgb(198,198,202)'
+                            value={quantity.toString()}
+                            maxLength={3}
+                            selectionColor='rgb(7,106,219)'
+                        />
                     </View>
                     
                     <View style={styles.iosTextInputWrapper}>
-                        <CustomPicker 
+                        {/* <CustomPicker 
                             label={'Quantity'} 
                             labelValue={quantity} 
                             data={quantity_data} 
                             selectedVal={quantity} 
                             onValChange={(itemValue) => { this.setState({ quantity: itemValue }) }} 
                         />
-                        <View style={styles.separator} />
+                        <View style={styles.separator} /> */}
                         <CustomPicker 
                             label={'Unit'}
                             labelValue={unit}

@@ -3,38 +3,6 @@
 const dataSource = {
     lists: [
         {
-            title: "Groceries",
-            date: "07/01/18",
-            time: "10:48 AM",
-            groceries: {
-                other: [
-                    {
-                        item: "Item 1",
-                        desc: "dummy text",
-                        quant: 99,
-                        unit: "gallons",
-                        marked: false,
-                    }
-                ]
-            }
-        },
-        {
-            title: "Small Stuff",
-            date: "06/27/18",
-            time: "7:23 PM",
-            groceries: {
-                other: [
-                    {
-                        item: "Item 1",
-                        desc: "dummy text",
-                        quant: 99,
-                        unit: "gallons",
-                        marked: false,
-                    }
-                ]
-            }
-        },
-        {
             title: "Publix Grocery List",
             date: "11/09/17",
             time: "9:04 PM",
@@ -116,3 +84,94 @@ const dataSource = {
 }
 
 export default dataSource
+
+// var groceries = [
+//     {
+//         item: "Soda",
+//         quant: 12,
+//         unit: "cans",
+//         marked: false,
+//         category: 'Beverages'
+//     },
+//     {
+//         item: "Juice",
+//         quant: 2,
+//         unit: "liters",
+//         marked: false,
+//         category: 'Beverages'
+//     },
+//     {
+//         item: "Bread",
+//         quant: 1,
+//         unit: "loaf",
+//         marked: false,
+//         category: 'Bakery'
+//     },
+//     {
+//         item: "Milk",
+//         quant: 2,
+//         unit: "gallons",
+//         marked: false,
+//         category: 'Dairy'
+//     },
+//     {
+//         item: "Cake",
+//         quant: 2,
+//         unit: "boxes",
+//         marked: false,
+//         category: 'Bakery'
+//     }
+// ]
+
+// var output = [
+//     {
+//         title: 'Beverages', 
+//         data: [
+//             {
+//                 item: "Soda",
+//                 quant: 12,
+//                 unit: "cans",
+//                 marked: false,
+//                 category: 'Beverages'
+//             },
+//             {
+//                 item: "Juice",
+//                 quant: 2,
+//                 unit: "liters",
+//                 marked: false,
+//                 category: 'Beverages'
+//             }
+//         ]
+//     },
+//     {
+//         title: 'Bakery',
+//         data: [
+//             {
+//                 item: "Bread",
+//                 quant: 1,
+//                 unit: "loaf",
+//                 marked: false,
+//                 category: 'Bakery'
+//             },
+//             {
+//                 item: "Cake",
+//                 quant: 2,
+//                 unit: "boxes",
+//                 marked: false,
+//                 category: 'Bakery'
+//             }
+//         ]
+//     },
+//     {
+//         title: 'Dairy',
+//         data: [
+//             {
+//                 item: "Milk",
+//                 quant: 2,
+//                 unit: "gallons",
+//                 marked: false,
+//                 category: 'Dairy'
+//             },
+//         ]
+//     },
+// ]
